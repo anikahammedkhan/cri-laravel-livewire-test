@@ -12,7 +12,7 @@ class Dashboard extends Component
     public $search = '';
     public $statusFilter = null;
     public $packageFilter = null;
-    
+
     protected $queryString = [
         'search' => ['except' => ''],
         'statusFilter' => ['except' => null],
@@ -151,26 +151,26 @@ class Dashboard extends Component
     public function getFilteredApplicants()
     {
         $applicants = collect($this->getApplicants());
-        
+
         if (!empty($this->search)) {
             $applicants = $applicants->filter(function ($item) {
-                return stripos($item['name'], $this->search) !== false || 
+                return stripos($item['name'], $this->search) !== false ||
                        stripos($item['email'], $this->search) !== false;
             });
         }
-        
+
         if ($this->statusFilter) {
             $applicants = $applicants->filter(function ($item) {
                 return $item['status'] === $this->statusFilter;
             });
         }
-        
+
         if ($this->packageFilter) {
             $applicants = $applicants->filter(function ($item) {
                 return $item['package'] === $this->packageFilter;
             });
         }
-        
+
         return $applicants->values()->all();
     }
 
@@ -185,7 +185,7 @@ class Dashboard extends Component
             'statCards' => $this->getStatCards(),
             'applicants' => $this->getFilteredApplicants(),
             'chartData' => $this->getChartData(),
-            'total' => 573 // In a real app, this would be calculated
-        ])->layout('layouts.app');
+            'total' => 573
+        ])->layout('layouts.dashboard');
     }
 }
